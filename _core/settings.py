@@ -31,25 +31,33 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '192.168.0.46'
-]
+# ALLOWED_HOSTS = [
+#     '192.168.0.46'
+# ]
 
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+
+MY_APPS = [
     'receitas',
     'despesas',
+    'users',
     'rest_framework',
     'corsheaders',
 ]
+
+INSTALLED_APPS = DJANGO_APPS + MY_APPS 
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -64,7 +72,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
-    "http://192.168.0.46",
+    "http://192.168.0.46:4200",
 ]
 
 ROOT_URLCONF = '_core.urls'
@@ -98,16 +106,26 @@ WSGI_APPLICATION = '_core.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-  "default": {
-      "ENGINE": "django.db.backends.postgresql",
-      "NAME": os.getenv("POSTGRES_DB"),
-      "USER": os.getenv("POSTGRES_USER"),
-      "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-      "HOST": "127.0.0.1",
-      "PORT": 5432,
-  }
-}
+if os.environ.get("TEST"):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("POSTGRES_DB"),
+            "USER": os.getenv("POSTGRES_USER"),
+            "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+            "HOST": "127.0.0.1",
+            "PORT": 5432,
+        }
+    }
+
+
 
 
 # Password validation
@@ -150,3 +168,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = "users.User"
+
