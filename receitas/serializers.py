@@ -10,7 +10,10 @@ class ReceitaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Receita
-        fields = '__all__'
+        fields = [
+            "id",
+            "entrada"
+        ]
 
     def create(self, validated_data: dict) -> Receita:
         return Receita.objects.create(**validated_data)

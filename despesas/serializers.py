@@ -10,7 +10,10 @@ class DespesaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Despesa
-        fields = '__all__'
+        fields = [
+            "id",
+            "saida"
+        ]
 
     def create(self, validated_data: dict) -> Despesa:
         return Despesa.objects.create(**validated_data)
