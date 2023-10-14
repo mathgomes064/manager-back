@@ -12,7 +12,8 @@ class DespesaSerializer(serializers.ModelSerializer):
         model = Despesa
         fields = [
             "id",
-            "saida"
+            "saida",
+            "descricao"
         ]
 
     def create(self, validated_data: dict) -> Despesa:
@@ -20,6 +21,7 @@ class DespesaSerializer(serializers.ModelSerializer):
     
     def update(self, instance, validated_data):
         instance.saida = validated_data.get('saida', instance.saida)
+        instance.descricao = validated_data.get('descricao', instance.descricao)
 
         instance.save()
         return instance

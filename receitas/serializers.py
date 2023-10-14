@@ -7,12 +7,12 @@ class DecimalSerializer(serializers.DecimalField):
 
 class ReceitaSerializer(serializers.ModelSerializer):
     entrada = DecimalSerializer(max_digits=10, decimal_places=2)
-
     class Meta:
         model = Receita
         fields = [
             "id",
-            "entrada"
+            "entrada",
+            "descricao"
         ]
 
     def create(self, validated_data: dict) -> Receita:
@@ -20,6 +20,7 @@ class ReceitaSerializer(serializers.ModelSerializer):
     
     def update(self, instance, validated_data):
         instance.entrada = validated_data.get('entrada', instance.entrada)
+        instance.descricao = validated_data.get('descricao', instance.descricao)
         
         instance.save()
         return instance
