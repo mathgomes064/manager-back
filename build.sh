@@ -1,15 +1,12 @@
 #!/bin/bash
 
-# Atualizar o ambiente
-python3.9 -m pip install -U pip
+# Build the project
+echo "Building the project..."
 python3.9 -m pip install -r requirements.txt
 
-# Aplicar migrações de banco de dados
-python3.9 -m manage makemigrations
-python3.9 -m manage migrate
+echo "Make Migration..."
+python3.9 manage.py makemigrations --noinput
+python3.9 manage.py migrate --noinput
 
-# Coletar arquivos estáticos
-python3.9 -m manage collectstatic --noinput --clear
-
-# Iniciar o servidor Gunicorn
-gunicorn _core.wsgi:application --bind 0.0.0.0:8000
+echo "Collect Static..."
+python3.9 manage.py collectstatic --noinput --clear
