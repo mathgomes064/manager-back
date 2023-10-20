@@ -13,7 +13,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import dotenv
+import dj_database_url
 from datetime import timedelta
+from decouple import config
 
 dotenv.load_dotenv()
 
@@ -112,6 +114,8 @@ DATABASES = {
   }
 }
 
+DATABASES['default'] = dj_database_url.config()
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -159,6 +163,7 @@ SIMPLE_JWT = {
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
