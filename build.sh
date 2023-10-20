@@ -1,9 +1,17 @@
-echo "Building the Project..."
+#!/bin/bash
+
+# Atualizar o ambiente
+python3.9 -m pip install -U pip
 python3.9 -m pip install -r requirements.txt
 
-echo "Make Migrations..."
-python3.9 -m manage makemigrations --noinput
-python3.9 -m manage migrate --noinput
+# Aplicar migrações de banco de dados
+python3.9 -m manage.py makemigrations
+python3.9 -m manage.py migrate
 
-echo "Collect Static..."
-python3.9 -m manage collectstatic --noinput --clear
+# Coletar arquivos estáticos
+python3.9 -m manage.py collectstatic --noinput --clear
+
+# Outras tarefas específicas do projeto, se necessário
+
+# Iniciar o servidor de desenvolvimento
+python3.9 -m manage.py runserver
